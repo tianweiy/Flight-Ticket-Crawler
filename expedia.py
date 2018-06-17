@@ -6,16 +6,13 @@ import argparse
 
 def parse(departure_city,departure_airport_code,arrival_city,arrival_state,arrival_airport_code,month,day,year):
         for i in range(5):
-                #try:
-                        #url = "https://www.expedia.com/Flights-Search?trip=oneway&leg1=from%3A{0}%2C%20China%20({1})%2Cto%3AAustin%2C%20TX%20(AUS-Austin-Bergstrom%20Intl.)%2Cdeparture%3A{2}%2F{3}%2F{4}TANYT&passengers=adults%3A1%2Cchildren%3A0%2Cseniors%3A0%2Cinfantinlap%3AY&options=cabinclass%3Aeconomy&mode=search&origref=www.expedia.com".format(source_city,airport_code,month,day,year)
-                        #url="https://www.expedia.com/Flights-Search?trip=oneway&leg1=from%3A{0}%2C%20China%20({1})%2Cto%3A{2}%2C%20{3}%20({4})%2
-#0Intl.)%2Cdeparture%3A{5}%2F{6}%2F{7}TANYT&passengers=adults%3A1%2Cchildren%3A0%2Cseniors%3A0%2Cinfantinlap%3AY&options=cabinclass%3Aeconomy&mode=search&ori                       
+                try:
                         url="https://www.expedia.com/Flights-Search?trip=oneway&leg1=from%3A{0}%2C%20China%20({1})%2Cto%3A{2}%2C%20({3})%20({4})%2Cdeparture%3A{5}%2F{6}%2F{7}TANYT&passengers=adults%3A1%2Cchildren%3A0%2Cseniors%3A0%2Cinfantinlap%3AY&options=cabinclass%3Aeconomy&mode=search&origref=www.expedia.com".format(departure_city,departure_airport_code,arrival_city,arrival_state,arrival_airport_code,month,day,year)
 
 
 
                         #headers = {'User-Agent': 'mozzilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'}
-                        #url="https://www.expedia.com/Flights-Search?trip=oneway&leg1=from%3ABeijing%2C%20China%20(PEK-Capital%20Intl.)%2Cto%3AAustin%2C%20TX%2C%20United%20States%20(AUS)%2Cdeparture%3A12%2F21%2F2018TANYT&passengers=adults%3A1%2Cchildren%3A0%2Cseniors%3A0%2Cinfantinlap%3AY&options=cabinclass%3Aeconomy&mode=search&origref=www.expedia.com"
+                       
                         response = requests.get(url,verify=False)
                         parser = html.fromstring(response.text)
                         #print(parser)
@@ -32,45 +29,39 @@ def parse(departure_city,departure_airport_code,arrival_city,arrival_state,arriv
                         #print(len(list(flight_data['legs'].keys())))
                                          
                         for i in flight_data['legs'].keys():
-                         #       if i == 'AA7101coach2018-12-21T11:00+08:00CAN2018-12-21T14:15+08:00PEK0AA262coach2018-12-21T17:25+08:00PEK2018-12-21T16:50-06:00DFW0AA2636coach2018-12-21T19:05-06:00DFW2018-12-21T20:08-06:00AUS0':
-                          #              sss=True
-                               
-                                #total_distance =  flight_data['legs'][i].get("formattedDistance",'')
+                        
+                                
                                 exact_price = flight_data['legs'][i].get('price',{}).get('exactPrice','')
                                                                 
-                                #departure_location_airport = flight_data['legs'][i].get('departureLocation',{}).get('airportLongName','')
+                               
                                 departure_location_city = flight_data['legs'][i].get('departureLocation',{}).get('airportCity','')
                                 departure_location_airport_code = flight_data['legs'][i].get('departureLocation',{}).get('airportCode','')
 
-                                #arrival_location_airport = flight_data['legs'][i].get('arrivalLocation',{}).get('airportLongName','')
+                                
                                 arrival_location_airport_code = flight_data['legs'][i].get('arrivalLocation',{}).get('airportCode','')
                                 arrival_location_city = flight_data['legs'][i].get('arrivalLocation',{}).get('airportCity','')
                                 airline_name = flight_data['legs'][i].get('carrierSummary',{}).get('airlineName','')
                                 no_of_stops = flight_data['legs'][i].get("stops","")
                                 
-                                #need further inspectation
+                               
                                 flight_duration = flight_data['legs'][i].get('duration',{})
                                 flight_hour = flight_duration.get('hours','')
                                 flight_minutes = flight_duration.get('minutes','')
-                                #flight_days = flight_duration.get('numOfDays','')
+                                #flight_days = flight_duration.get('numOfDays','') # can be deleted
                                 
-                                #price_list.append(exact_price)
+                                
                                 if no_of_stops==0:
                                         stop = "Nonstop"
                                 else:
                                         stop = str(no_of_stops)+' Stop'
 
 
-                                #if sss==True:
-                                #        print(exact_price)
+                              
                                 total_flight_duration = " {0} hours {1} minutes".format(flight_hour,flight_minutes)
                                 departure = departure_location_airport_code+", "+departure_location_city
                                 arrival = arrival_location_airport_code+", "+arrival_location_city
                                 carrier = flight_data['legs'][i].get('timeline',[])[0].get('carrier',{})
-                                #plane = carrier.get('plane','')
-                                #plane_code = carrier.get('planeCode','')
-                                #formatted_price = "{0:.2f}".format(exact_price)
-
+                               
                                 if not airline_name:
                                         airline_name = carrier.get('operatedBy','')
 
@@ -104,10 +95,10 @@ def parse(departure_city,departure_airport_code,arrival_city,arrival_state,arriv
                         #print(price_list)
                         return sortedlist
 
-                #except ValueError:
-                 #       print ("Rerying...")
+                except ValueError:
+                        print ("Rerying...")
                         
-                #return {"error":"failed to process the page",}
+                return {"error":"failed to process the page",}
                 
 if __name__=="__main__":
          argparser = argparse.ArgumentParser()
