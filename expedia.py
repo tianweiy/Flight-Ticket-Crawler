@@ -7,7 +7,7 @@ import argparse
 def parse(departure_city,departure_airport_code,arrival_city,arrival_state,arrival_airport_code,month,day,year):
         for i in range(5):
                 try:
-                        url="https://www.expedia.com/Flights-Search?trip=oneway&leg1=from%3A{0}%2C%20China%20({1})%2Cto%3A{2}%2C%20({3})%20({4})%2Cdeparture%3A{5}%2F{6}%2F{7}TANYT&passengers=adults%3A1%2Cchildren%3A0%2Cseniors%3A0%2Cinfantinlap%3AY&options=cabinclass%3Aeconomy&mode=search&origref=www.expedia.com".format(departure_city,departure_airport_code,arrival_city,arrival_state,arrival_airport_code,month,day,year)
+                        url="https://www.expedia.com/Flights-Search?trip=oneway&leg1=from%3A{0}%2C%20China%20({1})%2Cto%3A{2}%2C%20{3}%20({4})%2Cdeparture%3A{5}%2F{6}%2F{7}TANYT&passengers=adults%3A1%2Cchildren%3A0%2Cseniors%3A0%2Cinfantinlap%3AY&options=cabinclass%3Aeconomy&mode=search&origref=www.expedia.com".format(departure_city,departure_airport_code,arrival_city,arrival_state,arrival_airport_code,month,day,year)
 
 
 
